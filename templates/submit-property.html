@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Submit Property{% endblock %}
+{% block link %}
+<script type="module" src="{% static 'js/submit_index.js' %}"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+{% endblock %}
+{% block content %}
+<div class="page-head">
+    <div class="container">
+        <div class="row">
+            <div class="page-head-content">
+                <h1 class="page-title">Submit new property</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End page header -->
+
+<!-- property area -->
+<div class="content-area submit-property" style="background-color: #FCFCFC;">&nbsp;
+    <div class="container">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in listing_form %}
+                {% if field.name == 'lat' %}
+                <div id="map" style="width: 400px; height: 300px;"></div>
+                {% endif %}
+                {% if field.name == 'lat' or field.name == 'long' %}
+                    <div>
+                    {{ field.errors }}
+                    {{ field }}
+                    </div>
+                {% else %}
+                <div>
+                {{ field.errors }}
+                {{ field.label_tag }} {{ field }}
+                </div>
+                {% endif %}
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+<script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+    ({key: "AIzaSyD0-JXyLIKfRXOy5kKKDmpQNW33iA9qSlc", v: "weekly"});</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#id_region').change(function() {
+            var regionId = $(this).val();
+            if(regionId) {
+                $.ajax({
+                    url: 'get_cities/',
+                    type: 'GET',
+                    data: {'region_id': regionId},
+                    success: function(data) {
+                        $('#id_city').empty().append($('<option>').text('Select City').attr('value', ''));
+                        $.each(data, function(key, value) {
+                            var option = $('<option>').text(value.name).attr('value', value.id);
+                            option.data('lat', value.lat);
+                            option.data('long', value.long);
+                            $('#id_city').append(option);
+                        });
+                    }
+                });
+            } else {
+                $('#id_city').empty();
+            }
+        });
+    });
+</script>
+
+{% endblock %}
