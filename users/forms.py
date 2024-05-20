@@ -40,9 +40,8 @@ class ChangePasswordForm(forms.Form):
 class ProfileForm(ModelForm):
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'profile_image', 'telegram_username',
-                  'website', 'phone_number', 'email', 'is_agent']
-
+        fields = ['first_name', 'last_name', 'phone_number', 'email', 'is_agent',
+                  'telegram_username', 'x_link', 'm_link', 'l_link', 'profile_image']
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
@@ -53,5 +52,6 @@ class ProfileForm(ModelForm):
 class ProfileUpdateForm(ModelForm):
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'profile_image', 'telegram_username',
-                  'website', 'phone_number', 'email', 'is_agent']
+        fields = ['first_name', 'last_name', 'phone_number', 'email', 'is_agent',
+                  'telegram_username', 'x_link', 'm_link', 'l_link', 'profile_image']
+

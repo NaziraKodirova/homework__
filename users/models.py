@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -12,6 +13,8 @@ class CustomUser(AbstractUser):
     is_agent = models.BooleanField(default=False)
     # Profile bilan bog'lanish
     profile = models.OneToOneField('Profile', on_delete=models.CASCADE, null=True, blank=True, related_name='profile')
+    last_update = models.DateField(auto_now=True)
+    create_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.username} User"
@@ -25,9 +28,13 @@ class Profile(models.Model):
     email = models.EmailField()
     is_agent = models.BooleanField(default=False)
     telegram_username = models.CharField(max_length=100)
-    website = models.CharField(max_length=1000, blank=True, null=True)
+    x_link = models.URLField(null=True, blank=False)
+    m_link = models.URLField(null=True, blank=False)
+    l_link = models.URLField(null=True, blank=False)
     profile_image = models.ImageField(upload_to='profile_images/', default="default_profile.jpg",
                                       blank=True, null=True)
+    last_update = models.DateField(auto_now=True)
+    create_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'

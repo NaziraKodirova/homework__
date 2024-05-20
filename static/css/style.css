@@ -1,0 +1,20 @@
+/*
+ * Always set the map height explicitly to define the size of the div element
+ * that contains the map.
+ */
+#map {
+  height: 700px;
+  width: 80%;
+  margin: auto;
+}
+
+#icon {
+    height: 2;
+    width: 2;
+}
+
+.map-title {
+    text-align: center;
+    padding-bottom: 40px;
+    font-weight: 300;
+}

@@ -24,7 +24,7 @@ class Login(View):
             if user is not None:
                 login(request, user)
                 messages.success(request, "Tizimga muvaffaqqiyatli kirdingiz")
-                return redirect('listings_app:home')
+                return redirect('listing_app:home')
             else:
                 messages.error(request, 'Bunday login yoki parol mavjud emas')
                 return redirect('users:register')
@@ -36,7 +36,7 @@ class Login(View):
 class Logout(View):
     def get(self, request):
         logout(request)
-        return redirect('listings_app:home')
+        return redirect('listing_app:home')
 
 
 class Register(View):
@@ -65,7 +65,7 @@ class Register(View):
                 user.profile = new_profile
                 user.save()
                 messages.success(request, "Muvaffaqqiyatli ro'yxatdan o'tdingiz")
-                return HttpResponseRedirect(reverse('listings_app:home'))
+                return HttpResponseRedirect(reverse('listing_app:home'))
             else:
                 register_form.add_error('confirm_password', "Parolni tasdiqlashda xatolik yuzaga keldi")
         else:
@@ -86,7 +86,7 @@ class CustomUserUpdate(LoginRequiredMixin, View):
         if update_form.is_valid():
             update_form.save()
             messages.success(request, "Ma'lumotlar yangilandi.")
-            return redirect('listings_app:home')
+            return redirect('listing_app:home')
         else:
             messages.error(request, "Ma'lumotlarni yangilashda xatolik yuzaga keldi. Qayta urinib ko'ring.")
             return render(request, 'update-user.html', {'update_form': update_form})
@@ -104,7 +104,7 @@ class ProfileUpdateView(LoginRequiredMixin, View):
         if profile_form.is_valid():
             profile_form.save()
             messages.success(request, "Profilingiz ma'lumotlari yangilandi!")
-            return redirect('listings_app:home')
+            return redirect('listing_app:home')
         else:
             messages.error(request, "Ma'lumotlarni yangilashda xatolik yuzaga keldi. Qayta urinib ko'ring.")
         return render(request, 'update_profile.html', {'profile_form': profile_form})
@@ -130,7 +130,7 @@ class ChangePasswordView(LoginRequiredMixin, View):
                 user.save()
                 messages.success(request, "Parolingiz muvaffaqiyatli o'zgartirildi!")
                 update_session_auth_hash(request, user)
-                return redirect('listings_app:home')
+                return redirect('listing_app:home')
             else:
                 form.add_error('old_password', "Eski parol noto'g'ri")
         return render(request, self.template_name, {'form': form})
